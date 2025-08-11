@@ -1,0 +1,54 @@
+#topbar, #leftrail, #rightrail, #bottombar {
+  background: #222;
+  padding: var(--space-2);
+}
+.panel {
+  position: absolute;
+  background: #222;
+  border: 1px solid #555;
+  border-radius: var(--radius);
+  min-width: var(--panel-min);
+  min-height: var(--panel-min);
+  color: var(--color-fg);
+}
+.panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #333;
+  padding: var(--space-2);
+  cursor: move;
+}
+.panel .content { padding: var(--space-2); }
+.panel .grip-x,
+.panel .grip-y {
+  position: absolute;
+  background: transparent;
+}
+.panel .grip-x {
+  top: 0;
+  right: 0;
+  bottom: 12px;
+  width: 12px;
+  cursor: ew-resize;
+}
+.panel .grip-y {
+  left: 0;
+  right: 12px;
+  bottom: 0;
+  height: 12px;
+  cursor: ns-resize;
+}
+.panel.is-collapsed .content { display: none; }
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-bottom: 1px solid #333;
+}
