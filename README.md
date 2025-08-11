@@ -1,9 +1,14 @@
-# Record Label Simulator
 
-Scaffolded shell of a management sim built with Godot 4.3. Contains stubbed
-UI scenes, models, and controllers for early layout review.
+# Record Label Simulator (Web Prototype)
+
+Prototype of a management sim shell built with HTML, CSS and JavaScript. It mirrors
+the earlier Godot scaffold using browser technologies.
 
 ## Development
 
-Run the project with Godot 4.3. Autoload singletons and scenes are wired for
-demo purposes only.
+Open `index.html` in a modern browser. Time controls, popup panels and demo
+chart data are wired with plain JavaScript.
+
+## Tests
+
+Run `node --input-type=module -e "import {validateKoreanHangulOnly, resolve} from './titleResolver.js'; console.log(validateKoreanHangulOnly('버터'), validateKoreanHangulOnly('Butter'), resolve({ko:'버터', en:'Butter'}, 'ko'))"` to exercise the title resolver.
