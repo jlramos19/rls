@@ -1,3 +1,4 @@
+
 # Record Label Simulator (Web Prototype)
 
 Prototype of a management sim shell built with HTML, CSS and JavaScript. It mirrors
