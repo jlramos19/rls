@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://game/scenes/Right/CalendarPanel.gd" id=1]
+[node name="CalendarPanel" type="VBoxContainer" script=ExtResource("1")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+[node name="Header" type="Label" parent="."]
+text = "CalendarPanel"
+[node name="Weeks" type="VBoxContainer" parent="."]
+[node name="Open" type="Button" parent="."]
+text = "Open"

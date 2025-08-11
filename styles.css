@@ -1,0 +1,135 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: 80px 1fr 60px;
+  grid-template-columns: 200px 1fr 200px;
+  height: 100%;
+}
+
+.top-bar {
+  grid-column: 1 / 4;
+  background: #222;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+
+.left-rail {
+  grid-row: 2;
+  grid-column: 1;
+  background: #f0f0f0;
+  padding: 8px;
+  overflow: auto;
+}
+
+.center-workspace {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+
+.right-rail {
+  grid-row: 2;
+  grid-column: 3;
+  background: #f0f0f0;
+  padding: 8px;
+  overflow: auto;
+}
+
+.bottom-bar {
+  grid-row: 3;
+  grid-column: 1 / 4;
+  background: #222;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+
+.section h3 {
+  margin-top: 0;
+}
+
+.placeholder {
+  background: #ddd;
+  margin: 4px 0;
+  padding: 4px;
+  text-align: center;
+}
+
+.charts-view .list-row {
+  border-bottom: 1px solid #ccc;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.list-row img.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.list-row .primary {
+  font-weight: bold;
+}
+
+.list-row .secondary {
+  font-size: 0.8em;
+  color: #555;
+}
+
+.list-row .action {
+  margin-left: auto;
+}
+
+.resizable-panel {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  background: #fff;
+  border: 1px solid #999;
+  resize: both;
+  overflow: auto;
+}
+
+.resizable-panel .panel-header {
+  background: #444;
+  color: #fff;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.resizable-panel .panel-content {
+  padding: 8px;
+}
+
+#popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+#popup-container .resizable-panel {
+  pointer-events: auto;
+}
