@@ -1,4 +1,4 @@
-import { state, THEMES } from './storage.js';
+import { state, THEMES, THEME_COLORS } from './storage.js';
 import { createTrack, releaseTrack, scrapTrack, buyPromo, advanceDay, registerRender } from "./game.js";
 
 let selected = null;
@@ -9,19 +9,23 @@ function renderTop() {
   document.getElementById('date').textContent = `Year ${state.year} — Week ${state.week}/52 Day ${state.dayInWeek}`;
   document.getElementById('cash').textContent = `Cash: $${state.player.cash}`;
   document.getElementById('catharsis').textContent = `Catharsis: ${state.player.catharsis}`;
-  document.getElementById('trend').textContent = `TREND: ${state.trend||''}`;
+  const trendText = state.topTrends && state.topTrends.length ? state.topTrends.join(', ') : '';
+  document.getElementById('trend').textContent = `TOP TRENDS: ${trendText}`;
 }
 
 function renderTracks() {
   const panel = document.getElementById('track-panel');
+  const relPanel = document.getElementById('released-panel');
   panel.innerHTML='';
-  state.tracks.forEach((t,i)=>{
+  relPanel.innerHTML='';
+  const tracks = state.tracks.filter(t=>t.stage!=='scrapped');
+  tracks.forEach((t,i)=>{
     const div=document.createElement('div');
     div.className='track'+(t.stage==='released'?' released':'');
-    div.textContent=`${t.name}\nStage:${t.stage}\nFeedback:${t.feedback.join(',')}`;
+    div.innerHTML=`<strong>${t.name}</strong><br>Theme: <span style="color:${THEME_COLORS[t.theme]}">${t.theme}</span><br>Stage:${t.stage}<br>Feedback:${t.feedback.join(',')}`;
     div.onclick=()=>{ selected=i; renderTracks(); };
     if (selected===i) div.style.border='2px solid red';
-    panel.appendChild(div);
+    if (t.stage==='released') relPanel.appendChild(div); else panel.appendChild(div);
   });
 }
 
@@ -49,9 +53,12 @@ function setupButtons() {
 
 function startCreate() {
   if (state.player.slotsInUse>=5) return alert('No slots');
-  const key = prompt('Choose theme F/L/A/M/P');
-  const map={F:'freedom',L:'loyalty',A:'ambition',M:'morality',P:'power'};
-  const theme=map[key.toUpperCase()];
+  const key = prompt('Choose theme:\n1-Freedom 2-Loyalty 3-Ambition 4-Morality 5-Power');
+  const map={
+    '1':'freedom','2':'loyalty','3':'ambition','4':'morality','5':'power',
+    'F':'freedom','L':'loyalty','A':'ambition','M':'morality','P':'power'
+  };
+  const theme=map[key.toUpperCase?key.toUpperCase():key];
   if (theme) createTrack('player', theme);
 }
 
@@ -69,7 +76,8 @@ function doScrap() {
 
 function startPromo() {
   const target = prompt('Promo target: latest or tease?');
-  const strategy = prompt('Strategy: personal, corporate, artificial');
+  const info = 'Strategies:\nPersonal:+Freedom/+Loyalty/-Ambition\nCorporate:+Loyalty/+Ambition/-Morality\nArtificial:+Freedom/+Morality/-Power';
+  const strategy = prompt(info + '\nChoose strategy: personal, corporate, artificial');
   if (['latest','tease'].includes(target) && ['personal','corporate','artificial'].includes(strategy)) {
     buyPromo('player', target==='latest'?'latest':'tease', strategy);
   }
@@ -85,6 +93,7 @@ function setupKeys() {
     else if (e.key==='p' || e.key==='P') startPromo();
     else if (e.key==='ArrowUp') { if (selected===null) selected=0; else selected=Math.max(0,selected-1); renderTracks(); }
     else if (e.key==='ArrowDown') { if (selected===null) selected=0; else selected=Math.min(state.tracks.length-1,selected+1); renderTracks(); }
+    else if (e.key==='d' || e.key==='D') { state.devMode=!state.devMode; alert('Dev mode '+(state.devMode?'ON':'OFF')); }
   });
 }
 
@@ -92,5 +101,9 @@ setupButtons();
 setupKeys();
 registerRender(renderAll);
 renderAll();
+if (!state.tutorialShown) {
+  alert('Goal: dominate the Top 5 with your tracks. Use buttons or keys to create (C), promote (P), release (R). Use numbers 1-5 to select themes.');
+  state.tutorialShown = true;
+}
 
 export { renderAll };

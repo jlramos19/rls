@@ -1,7 +1,8 @@
-import { state, saveState, recordScore, THEMES, DAY_MS } from './storage.js';
+import { state, saveState, recordScore, THEMES, DAY_MS, SONG_NAMES } from './storage.js';
 import { aiDaily } from './ai.js';
 
 let nextTrackId = 1;
+let nameIdx = 0;
 let render = () => {};
 function registerRender(fn){ render = fn; }
 const promoCost = 1000;
@@ -18,7 +19,8 @@ function createTrack(owner, theme) {
   if (state.tracks.filter(t=>t.owner===owner && t.inCreationSlot).length>=5) return;
   const t = {
     id: nextTrackId++,
-    owner, name: `${theme} ${Date.now()}`,
+    owner,
+    name: SONG_NAMES[nameIdx % SONG_NAMES.length],
     theme,
     stage:'sheet',
     daysAtStage:0,
@@ -30,6 +32,7 @@ function createTrack(owner, theme) {
   };
   state.tracks.push(t);
   state[owner].slotsInUse++;
+  nameIdx++;
 }
 
 function scrapTrack(id, owner) {
@@ -115,6 +118,7 @@ function weeklyUpdate() {
   populationGrowth();
   state.week++;
   if (state.week>52) { state.week=1; state.year++; }
+  clampAllCatharsis();
   saveState();
 }
 
@@ -154,8 +158,9 @@ function computeChart() {
   });
   entries.sort((a,b)=>b.points-a.points);
   state.chart = entries.slice(0,10).map((e,i)=>({rank:i+1, ...e}));
-  const trendTheme = THEMES.reduce((a,b)=>state.pulls[a]>state.pulls[b]?a:b);
-  state.trend = trendTheme;
+  const sortedThemes = [...THEMES].sort((a,b)=>state.pulls[b]-state.pulls[a]);
+  state.trend = sortedThemes[0];
+  state.topTrends = sortedThemes.slice(0,3);
   checkWinLoss();
 }
 
@@ -195,18 +200,26 @@ function populationGrowth() {
   state.population = Math.min(2_000_000, Math.round(state.population*(1+0.002)));
 }
 
+function clampAllCatharsis() {
+  ['player','ai'].forEach(owner=>{
+    state[owner].catharsis = Math.max(-100, Math.min(100, state[owner].catharsis));
+  });
+}
+
 function checkWinLoss() {
   const top5 = state.chart.slice(0,5);
+  if (state.devMode) return; // no loss in dev mode
   if (top5.every(e=>e.owner==='ai')) {
     showModal('Loss: AI dominates Top 5'); state.paused=true;
   } else if (top5.every(e=>e.owner==='player')) {
     const weeks = state.week + (state.year-2400)*52;
     recordScore(weeks);
-    showModal('Win! Player dominates Top 5\n\nScoreboard:\n' + state.scoreboard.join('\n'));
+    const scores = state.scoreboard.map(s=>`${s.difficulty}: ${s.weeks}`).join('\n');
+    showModal('Win! Player dominates Top 5\n\nScoreboard:\n' + scores);
     state.paused=true;
   }
   if (state.player.cash<=0) { showModal('Loss: Out of cash'); state.paused=true; }
-  if (state.player.catharsis<-100) { state.player.cash-=5000; state.player.catharsis=0; if (state.player.cash<=0) { showModal('Loss: Out of cash'); state.paused=true; } }
+  if (state.player.catharsis<=-100) { state.player.cash-=5000; state.player.catharsis=0; if (state.player.cash<=0) { showModal('Loss: Out of cash'); state.paused=true; } }
 }
 
 
