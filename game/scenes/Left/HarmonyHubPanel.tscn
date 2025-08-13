@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3]
-[node name="HarmonyHubPanel" type="VBoxContainer"]
-size_flags_horizontal = 3
-size_flags_vertical = 3
-[node name="Header" type="Label" parent="."]
-text = "HarmonyHubPanel"
