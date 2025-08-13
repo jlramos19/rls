@@ -1,81 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Record Label Simulator</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Release Label Simulator</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app" class="grid-container">
-    <header id="top-bar" class="top-bar">
-      <div class="left-cluster">
-        <div class="placeholder portrait">64x64</div>
-        <div class="placeholder popularity">Popularity</div>
-        <div class="wallet-panel">
-          <span id="wallet-amount">$1,000</span>
-          <button id="wallet-button">Wallet</button>
-        </div>
-      </div>
-      <div class="center-cluster">
-        <span id="game-clock">SAT - JAN 01, 2400 - 12AM</span>
-        <div class="time-controls">
-          <button id="btn-pause">Pause</button>
-          <button id="btn-play">Play</button>
-          <button id="btn-fast">Fast</button>
-          <button id="btn-skip">Skip</button>
-        </div>
-      </div>
-      <div class="right-cluster">
-        <div class="placeholder trends">Top Trends</div>
-        <div class="placeholder labels">Top Labels</div>
-        <button id="settings-button">Settings</button>
-      </div>
-    </header>
-    <aside id="left-rail" class="left-rail">
-      <div class="section">
-        <h3>Communities</h3>
-        <button class="open-popup" data-popup="areas">Areas</button>
-        <button class="open-popup" data-popup="creators">Creators</button>
-        <button class="open-popup" data-popup="items">Items and Tools</button>
-        <button class="open-popup" data-popup="collabs">Collabs</button>
-      </div>
-      <div class="section">
-        <h3>Harmony Hub</h3>
-        <button class="open-popup" data-popup="areas-hub">Areas</button>
-        <button class="open-popup" data-popup="creators-hub">Creators</button>
-        <button class="open-popup" data-popup="items-hub">Items and Tools</button>
-        <button class="open-popup" data-popup="collabs-hub">Collabs</button>
-      </div>
-    </aside>
-    <main id="center-workspace" class="center-workspace">
-      <div id="center-top" class="center-top">
-        <div id="charts-view" class="charts-view"></div>
-      </div>
-      <div id="center-bottom" class="center-bottom">
-        <div class="inventory-panel placeholder">Inventory</div>
-        <div class="active-area-panel placeholder">No area selected</div>
-        <div class="quick-recipes-panel placeholder">
-          <button id="open-recipes">Quick Recipes</button>
-        </div>
-      </div>
-    </main>
-    <aside id="right-rail" class="right-rail">
-      <div class="quests-panel placeholder">Quests</div>
-      <div class="calendar-panel">
-        <div id="calendar-weeks"></div>
-        <button id="open-calendar">Open Calendar</button>
-      </div>
-    </aside>
-    <footer id="bottom-bar" class="bottom-bar">
-      <button id="promote-content">Promote Content</button>
-      <div class="dialogue-strip">
-        <div class="portrait placeholder">Portrait</div>
-        <div class="dialogue-text placeholder">NPC says hello.</div>
-      </div>
-      <button id="eyeri-social">eyeriSocial</button>
-    </footer>
+  <div id="top-bar">
+    <span id="date"></span>
+    <span id="cash"></span>
+    <span id="catharsis"></span>
+    <span id="trend"></span>
   </div>
-  <div id="popup-container"></div>
-  <script type="module" src="app.js"></script>
+  <div id="track-panel"></div>
+  <div id="charts-panel">
+    <table id="charts-table">
+      <thead>
+        <tr><th>Rank</th><th>Name</th><th>Owner</th><th>Points</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div id="bottom-bar">
+    <button id="pause-btn">Pause</button>
+    <button id="skip-btn">Skip 3 Days</button>
+    <button id="promo-btn">Promo</button>
+    <button id="create-btn">Create</button>
+    <button id="release-btn">Release</button>
+    <button id="scrap-btn">Scrap</button>
+  </div>
+  <div id="modal" class="hidden"></div>
+  <script type="module" src="ui.js"></script>
 </body>
 </html>
