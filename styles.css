@@ -1,7 +1,8 @@
-body { font-family: sans-serif; margin:0; padding:0; }
-#top-bar, #bottom-bar { display:flex; justify-content:space-around; padding:8px; background:#222; color:#fff; }
+body { font-family: sans-serif; margin:0; padding:0; font-size:18px; }
+#top-bar, #bottom-bar { display:flex; justify-content:space-around; padding:12px; background:#222; color:#fff; font-size:18px; }
 #track-panel { padding:10px; display:flex; flex-wrap:wrap; gap:8px; }
-.track { border:1px solid #333; padding:8px; width:180px; }
+#released-panel { padding:10px; max-height:200px; overflow-y:auto; border-top:1px solid #333; }
+.track { border:2px solid #333; padding:8px; width:200px; border-radius:4px; }
 .track.released { background:#eef; }
 #charts-panel { padding:10px; }
 #charts-table { width:100%; border-collapse:collapse; }
